@@ -66,13 +66,13 @@ def run_adipose_pipeline(args,flags,save_path='/',data_path='/',id='Test',logger
         ishape = fat_img.shape
 
         #Check if  data from example_data_folder was loaded : Only contains the value -9999
-        if len(np.unique(fat_img.get_data())) > 2:
+        if len(np.unique(fat_img.get_fdata())) > 2:
             if len(ishape) > 3 and ishape[3] != 1:
                 logger.info('ERROR: Multiple input frames (' + format(fat_img.shape[3]) + ') not supported!')
             else:
                 fat_img = conform(fat_img, flags=flags, order=args.order, save_path=save_path, mod='fat',
                                   axial=args.axial,logger=logger)
-                fat_array = fat_img.get_data()
+                fat_array = fat_img.get_fdata()
                 fat_zooms = fat_img.header.get_zooms()
 
             logger.info('-' * 30)
@@ -95,7 +95,7 @@ def run_adipose_pipeline(args,flags,save_path='/',data_path='/',id='Test',logger
                 else:
                     water_img = conform(water_img, flags=flags, order=args.order, save_path=save_path, mod='water',
                                        axial=args.axial,logger=logger)
-                    water_array = water_img.get_data()
+                    water_array = water_img.get_fdata()
 
 
             variable_columns, base_variable_len = stats_variable_initialization(weighted)
@@ -290,4 +290,3 @@ if __name__=='__main__':
     run_fatsegnet(args,FLAGS)
 
     sys.exit(0)
-
